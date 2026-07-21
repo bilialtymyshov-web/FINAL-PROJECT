@@ -15,7 +15,7 @@
                 <th>Цена</th>
                 <th>Статус</th>
                 <th>Просмотры</th>
-                <th>Действие</th>
+                <th>Действия</th>
             </tr>
         </thead>
         <tbody>
@@ -39,8 +39,12 @@
                         {% endif %}
                     </td>
                     <td>👁️ {{ ad.views_count }}</td>
+
+                    <!-- ВОТ ТВОЙ БЛОК С КНОПКАМИ: -->
                     <td>
-                        <a href="{% url 'ads:ad_detail' ad.pk %}" class="btn btn-sm btn-outline-primary">Просмотр</a>
+                        <a href="{% url 'ads:ad_detail' ad.pk %}" class="btn btn-sm btn-outline-primary" title="Просмотр">Просмотр</a>
+                        <a href="{% url 'ads:ad_update' ad.pk %}" class="btn btn-sm btn-outline-warning" title="Редактировать">✏️</a>
+                        <a href="{% url 'ads:ad_delete' ad.pk %}" class="btn btn-sm btn-outline-danger" title="Удалить">🗑️</a>
                     </td>
                 </tr>
             {% empty %}
