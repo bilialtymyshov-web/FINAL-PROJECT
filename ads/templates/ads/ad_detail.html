@@ -1,0 +1,56 @@
+{% extends 'ads/base.html' %}
+
+{% block title %}{{ ad.title }} — ClassiFyi{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-7">
+        <!-- Главное фото -->
+        {% if ad.image %}
+            <img src="{{ ad.image.url }}" class="img-fluid rounded shadow-sm w-100 mb-3" alt="{{ ad.title }}" style="max-height: 450px; object-fit: cover;">
+        {% endif %}
+
+        <!-- Галерея дополнительных фото (Челлендж) -->
+        {% if ad.images.all %}
+            <h6 class="fw-bold mb-2">Дополнительные фото:</h6>
+            <div class="d-flex gap-2 flex-wrap mb-4">
+                {% for item in ad.images.all %}
+                    <a href="{{ item.image.url }}" target="_blank">
+                        <img src="{{ item.image.url }}" class="rounded border" style="width: 100px; height: 80px; object-fit: cover;">
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-5">
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-info text-dark">{{ ad.category.name }}</span>
+                {% if ad.status == 'active' %}
+                    <span class="badge bg-success">Активно</span>
+                {% else %}
+                    <span class="badge bg-secondary">Продано</span>
+                {% endif %}
+            </div>
+
+            <h2 class="h4 fw-bold">{{ ad.title }}</h2>
+            <h3 class="text-success fw-bold my-3">{{ ad.price }} сом/руб.</h3>
+
+            <hr>
+
+            <p class="text-secondary">{{ ad.description|linebreaks }}</p>
+
+            <hr>
+
+            <div class="small text-muted mb-3">
+                <p class="mb-1"><strong>Автор:</strong> {{ ad.author.username }}</p>
+                <p class="mb-1"><strong>Опубликовано:</strong> {{ ad.created_at|date:"d E Y, H:i" }}</p>
+                <p class="mb-0"><strong>Просмотров:</strong> {{ ad.views_count }}</p>
+            </div>
+
+            <a href="{% url 'ads:ad_list' %}" class="btn btn-outline-secondary w-100 mt-2">← Назад к списку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
