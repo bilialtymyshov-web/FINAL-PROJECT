@@ -1,44 +1,54 @@
-{% extends 'ads/base.html' %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Витрина объявлений — ClassiFyi</title>
 
-{% block title %}Витрина объявлений — ClassiFyi{% endblock %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light py-5">
 
-{% block content %}
-<div class="row">
-    <div class="col-12 mb-4">
-        <h1 class="h3 fw-bold">Активные объявления</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <h1 class="h3 fw-bold">Активные объявления</h1>
+            </div>
+
+            {% for ad in ads %}
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        {% if ad.image %}
+                            <img src="{{ ad.image.url }}" class="card-img-top" alt="{{ ad.title }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <span>Нет фото</span>
+                            </div>
+                        {% endif %}
+
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-info text-dark mb-2 align-self-start">{{ ad.category.name }}</span>
+                            <h5 class="card-title text-truncate">{{ ad.title }}</h5>
+                            <p class="card-text fw-bold text-success fs-5 mb-2">{{ ad.price }} сом/руб.</p>
+                            <p class="card-text text-muted small flex-grow-1">{{ ad.description|truncatewords:12 }}</p>
+
+                            <div class="pt-2 border-top d-flex justify-content-between align-items-center text-muted small">
+                                <span>👁️ {{ ad.views_count }}</span>
+                                <span>{{ ad.created_at|date:"d.m.Y" }}</span>
+                            </div>
+                            <a href="{% url 'ads:ad_detail' ad.pk %}" class="btn btn-outline-primary btn-sm mt-3 w-100">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info text-center py-4">
+                        Объявлений пока нет. Зайди в админку и добавь первые карточки!
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
-    {% for ad in ads %}
-        <div class="col-md-4 col-sm-6 mb-4">
-            <div class="card h-100 shadow-sm border-0">
-                {% if ad.image %}
-                    <img src="{{ ad.image.url }}" class="card-img-top" alt="{{ ad.title }}" style="height: 200px; object-fit: cover;">
-                {% else %}
-                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
-                        <span>Нет фото</span>
-                    </div>
-                {% endif %}
-
-                <div class="card-body d-flex flex-column">
-                    <span class="badge bg-info text-dark mb-2 align-self-start">{{ ad.category.name }}</span>
-                    <h5 class="card-title text-truncate">{{ ad.title }}</h5>
-                    <p class="card-text fw-bold text-success fs-5 mb-2">{{ ad.price }} сом/руб.</p>
-                    <p class="card-text text-muted small flex-grow-1">{{ ad.description|truncatewords:12 }}</p>
-
-                    <div class="pt-2 border-top d-flex justify-content-between align-items-center text-muted small">
-                        <span>👁️ {{ ad.views_count }}</span>
-                        <span>{{ ad.created_at|date:"d.m.Y" }}</span>
-                    </div>
-                    <a href="{% url 'ads:ad_detail' ad.pk %}" class="btn btn-outline-primary btn-sm mt-3 w-100">Подробнее</a>
-                </div>
-            </div>
-        </div>
-    {% empty %}
-        <div class="col-12">
-            <div class="alert alert-info text-center py-4">
-                Объявлений пока нет. Зайди в админку и добавь первые карточки!
-            </div>
-        </div>
-    {% endfor %}
-</div>
-{% endblock %}
+</body>
+</html>

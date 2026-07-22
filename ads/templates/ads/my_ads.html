@@ -1,58 +1,67 @@
-{% extends 'ads/base.html' %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои объявления — ClassiFyi</title>
 
-{% block title %}Мои объявления — ClassiFyi{% endblock %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light py-5">
 
-{% block content %}
-<h1 class="h3 fw-bold mb-4">Мои объявления</h1>
+    <div class="container">
+        <h1 class="h3 fw-bold mb-4">Мои объявления</h1>
 
-<div class="table-responsive bg-white rounded shadow-sm p-3">
-    <table class="table table-hover align-middle">
-        <thead>
-            <tr>
-                <th>Фото</th>
-                <th>Заголовок</th>
-                <th>Категория</th>
-                <th>Цена</th>
-                <th>Статус</th>
-                <th>Просмотры</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ad in ads %}
-                <tr>
-                    <td>
-                        {% if ad.image %}
-                            <img src="{{ ad.image.url }}" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
-                        {% else %}
-                            <div class="bg-secondary rounded text-white text-center py-2" style="width: 50px; height: 50px; font-size: 10px;">Нет фото</div>
-                        {% endif %}
-                    </td>
-                    <td class="fw-bold">{{ ad.title }}</td>
-                    <td>{{ ad.category.name }}</td>
-                    <td class="text-success fw-bold">{{ ad.price }}</td>
-                    <td>
-                        {% if ad.status == 'active' %}
-                            <span class="badge bg-success">Активно</span>
-                        {% else %}
-                            <span class="badge bg-secondary">Продано</span>
-                        {% endif %}
-                    </td>
-                    <td>👁️ {{ ad.views_count }}</td>
+        <div class="table-responsive bg-white rounded shadow-sm p-3">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Фото</th>
+                        <th>Заголовок</th>
+                        <th>Категория</th>
+                        <th>Цена</th>
+                        <th>Статус</th>
+                        <th>Просмотры</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ad in ads %}
+                        <tr>
+                            <td>
+                                {% if ad.image %}
+                                    <img src="{{ ad.image.url }}" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                {% else %}
+                                    <div class="bg-secondary rounded text-white text-center py-2" style="width: 50px; height: 50px; font-size: 10px;">Нет фото</div>
+                                {% endif %}
+                            </td>
+                            <td class="fw-bold">{{ ad.title }}</td>
+                            <td>{{ ad.category.name }}</td>
+                            <td class="text-success fw-bold">{{ ad.price }}</td>
+                            <td>
+                                {% if ad.status == 'active' %}
+                                    <span class="badge bg-success">Активно</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Продано</span>
+                                {% endif %}
+                            </td>
+                            <td>👁️ {{ ad.views_count }}</td>
 
-                    <!-- ВОТ ТВОЙ БЛОК С КНОПКАМИ: -->
-                    <td>
-                        <a href="{% url 'ads:ad_detail' ad.pk %}" class="btn btn-sm btn-outline-primary" title="Просмотр">Просмотр</a>
-                        <a href="{% url 'ads:ad_update' ad.pk %}" class="btn btn-sm btn-outline-warning" title="Редактировать">✏️</a>
-                        <a href="{% url 'ads:ad_delete' ad.pk %}" class="btn btn-sm btn-outline-danger" title="Удалить">🗑️</a>
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="7" class="text-center text-muted py-4">У вас пока нет созданных объявлений.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endblock %}
+                            <td>
+                                <a href="{% url 'ads:ad_detail' ad.pk %}" class="btn btn-sm btn-outline-primary" title="Просмотр">Просмотр</a>
+                                <a href="{% url 'ads:ad_update' ad.pk %}" class="btn btn-sm btn-outline-warning" title="Редактировать">✏️</a>
+                                <a href="{% url 'ads:ad_delete' ad.pk %}" class="btn btn-sm btn-outline-danger" title="Удалить">🗑️</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-4">У вас пока нет созданных объявлений.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
